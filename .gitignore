@@ -3,9 +3,8 @@ node_modules
 .vscode
 
 # generated
-/lib
+/lib/bs
 /dist
-*.bs.js
 .merlin
 
 # os files
