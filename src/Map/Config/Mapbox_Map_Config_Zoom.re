@@ -1,0 +1,25 @@
+[@bs.deriving jsConverter]
+type t =
+  | Z0
+  | Z1
+  | Z2
+  | Z3
+  | Z4
+  | Z5
+  | Z6
+  | Z7
+  | Z8
+  | Z9
+  | Z10
+  | Z11
+  | Z12
+  | Z13
+  | Z14
+  | Z15
+  | Z16
+  | Z17
+  | Z18
+  | Z19
+  | Z20
+  | Z21
+  | Z22;
