@@ -1,4 +1,5 @@
 module LngLat = Mapbox_LngLat;
+module LngLatBounds = Mapbox_LngLatBounds;
 module Zoom = Mapbox_Map_Config_Zoom;
 module Style = Mapbox_Map_Config_Style;
 
@@ -32,20 +33,6 @@ module MapContainer = {
   };
 };
 
-module LngLatBounds = {
-  type t = {
-    n: float,
-    e: float,
-    s: float,
-    w: float
-  };
-
-  type t_js = array(float);
-
-  let tToJs = ({ n, e, s, w }): t_js =>
-    [|w, s, e, n|];
-};
-
 type t = {
   container: MapContainer.t,
   minZoom: option(Zoom.t), /* default: 0 */
@@ -60,7 +47,7 @@ type t = {
   failIfMajorPerformanceCaveat: option(bool), /* default false */
   preserveDrawingBuffer: option(bool), /* default false */
   refreshExpiredTiles: option(bool), /*default true */
-  /* maxBounds: option(LngLatBoundsLike.t) */
+  maxBounds: option(LngLatBounds.t),
   scrollZoom: option(bool), /* default true  */
   boxZoom: option(bool), /* default true */
   dragRotate: option(bool), /* default true */
@@ -87,6 +74,7 @@ type jsObj = {.
   "failIfMajorPerformanceCaveat": Js.undefined(bool),
   "preserveDrawingBuffer": Js.undefined(bool),
   "refreshExpiredTiles": Js.undefined(bool),
+  "maxBounds": Js.undefined(LngLatBounds.t_js),
   "scrollZoom": Js.undefined(bool),
   "boxZoom": Js.undefined(bool),
   "dragRotate": Js.undefined(bool),
@@ -113,6 +101,7 @@ let make = (
   ~failIfMajorPerformanceCaveat=?,
   ~preserveDrawingBuffer=?,
   ~refreshExpiredTiles=?,
+  ~maxBounds=?,
   ~scrollZoom=?,
   ~boxZoom=?,
   ~dragRotate=?,
@@ -129,7 +118,7 @@ let make = (
   pitchWithRotate, attributionControl, logoPosition, failIfMajorPerformanceCaveat,
   preserveDrawingBuffer, refreshExpiredTiles, scrollZoom, boxZoom, dragRotate,
   dragPan, keyboard, doubleClickZoom, touchZoomRotate, trackResize, center,
-  zoom };
+  zoom, maxBounds };
 
 /**
  * This is a special, magic function that will produce a JS object with fields
@@ -151,6 +140,7 @@ let make = (
   ~failIfMajorPerformanceCaveat: bool=?,
   ~preserveDrawingBuffer: bool=?,
   ~refreshExpiredTiles: bool=?,
+  ~maxBounds: LngLatBounds.t_js=?,
   ~scrollZoom: bool=?,
   ~boxZoom: bool=?,
   ~dragRotate: bool=?,
@@ -181,6 +171,7 @@ let tToJs = (data: t): jsObj => {
     ~failIfMajorPerformanceCaveat= ?data.failIfMajorPerformanceCaveat,
     ~preserveDrawingBuffer= ?data.preserveDrawingBuffer,
     ~refreshExpiredTiles= ?data.refreshExpiredTiles,
+    ~maxBounds= ?data.maxBounds |. map(LngLatBounds.tToJs),
     ~scrollZoom= ?data.scrollZoom,
     ~boxZoom= ?data.boxZoom,
     ~dragRotate= ?data.dragRotate,
