@@ -16,7 +16,8 @@ type t = {.
   [@bs.meth] "setZoom": float => t,
   [@bs.meth] "fitBounds": Config.LngLatBounds.t_js => FitOptions.t_js => t,
   [@bs.meth] "on": (string, Js.Nullable.t(string), unit => unit) => t,
-  [@bs.meth] "remove": unit => unit
+  [@bs.meth] "remove": unit => unit,
+  [@bs.meth] "getBounds": unit => Config.LngLatBounds.t_js
 };
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
