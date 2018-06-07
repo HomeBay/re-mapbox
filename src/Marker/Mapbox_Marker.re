@@ -48,6 +48,7 @@ module Config = {
 
 type t = {.
   [@bs.meth] "setLngLat": Mapbox_LngLat.t_js => t,
+  [@bs.meth] "getElement": unit => Dom.element,
   [@bs.meth] "addTo": Mapbox_Map.t => t,
   [@bs.meth] "remove": unit => t
 };
