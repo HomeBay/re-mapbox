@@ -74,7 +74,7 @@ type jsObj = {.
   "failIfMajorPerformanceCaveat": Js.undefined(bool),
   "preserveDrawingBuffer": Js.undefined(bool),
   "refreshExpiredTiles": Js.undefined(bool),
-  "maxBounds": Js.undefined(LngLatBounds.t_js),
+  "maxBounds": Js.undefined(LngLatBounds.t),
   "scrollZoom": Js.undefined(bool),
   "boxZoom": Js.undefined(bool),
   "dragRotate": Js.undefined(bool),
@@ -83,7 +83,7 @@ type jsObj = {.
   "doubleClickZoom": Js.undefined(bool),
   "touchZoomRotate": Js.undefined(bool),
   "trackResize": Js.undefined(bool),
-  "center": Js.undefined(LngLat.t_js),
+  "center": Js.undefined(LngLat.t),
   "zoom": Js.undefined(int)
 };
 
@@ -140,7 +140,7 @@ let make = (
   ~failIfMajorPerformanceCaveat: bool=?,
   ~preserveDrawingBuffer: bool=?,
   ~refreshExpiredTiles: bool=?,
-  ~maxBounds: LngLatBounds.t_js=?,
+  ~maxBounds: LngLatBounds.t=?,
   ~scrollZoom: bool=?,
   ~boxZoom: bool=?,
   ~dragRotate: bool=?,
@@ -149,7 +149,7 @@ let make = (
   ~doubleClickZoom: bool=?,
   ~touchZoomRotate: bool=?,
   ~trackResize: bool=?,
-  ~center: LngLat.t_js=?,
+  ~center: LngLat.t=?,
   ~zoom: int=?,
   unit
 ) => _ = "";
@@ -171,7 +171,7 @@ let tToJs = (data: t): jsObj => {
     ~failIfMajorPerformanceCaveat= ?data.failIfMajorPerformanceCaveat,
     ~preserveDrawingBuffer= ?data.preserveDrawingBuffer,
     ~refreshExpiredTiles= ?data.refreshExpiredTiles,
-    ~maxBounds= ?data.maxBounds |. map(LngLatBounds.tToJs),
+    ~maxBounds= ?data.maxBounds,
     ~scrollZoom= ?data.scrollZoom,
     ~boxZoom= ?data.boxZoom,
     ~dragRotate= ?data.dragRotate,
@@ -180,7 +180,7 @@ let tToJs = (data: t): jsObj => {
     ~doubleClickZoom= ?data.doubleClickZoom,
     ~touchZoomRotate= ?data.touchZoomRotate,
     ~trackResize= ?data.trackResize,
-    ~center= ?data.center |. map(LngLat.tToJs),
+    ~center= ?data.center,
     ~zoom= ?data.zoom |. map(Zoom.tToJs),
     ()
   );
