@@ -9,12 +9,9 @@
   "author": "mlms13",
   "license": "ISC",
   "dependencies": {
-    "mapbox-gl": "^0.45.0"
+    "mapbox-gl": "^0.46.0"
   },
   "devDependencies": {
     "bs-platform": "^3.0.0"
-  },
-  "peerDependencies": {
-    "mapbox-gl": "^0.46.0"
   }
 }
