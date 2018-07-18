@@ -20,7 +20,7 @@ type supportedOpts = {.
 /**
  * Base API includes Map and lots of `Options` definitions used elsewhere
  */
-module Map = Mapbox_Map;
+module Map = Mapbox_GL_Map;
 /* TODO: Animation Options */
 /* TODO: Camera Options */
 /* TODO: Padding Options */
@@ -29,8 +29,8 @@ module Map = Mapbox_Map;
 /**
  * Geography and Geometry types and helpers
  */
-module LngLat = Mapbox_LngLat;
-module LngLatBounds = Mapbox_LngLatBounds;
+module LngLat = Mapbox_GL_LngLat;
+module LngLatBounds = Mapbox_GL_LngLatBounds;
 /* TODO: Point */
 
 /**
@@ -42,7 +42,7 @@ module LngLatBounds = Mapbox_LngLatBounds;
 /* TODO: Scale Control */
 /* TODO: Fullscreen Control */
 /* TODO: Popup */
-module Marker = Mapbox_Marker;
+module Marker = Mapbox_GL_Marker;
 
 /* TODO: User Interaction Handlers */
 

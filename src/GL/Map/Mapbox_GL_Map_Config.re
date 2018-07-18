@@ -1,7 +1,39 @@
-module LngLat = Mapbox_LngLat;
-module LngLatBounds = Mapbox_LngLatBounds;
-module Zoom = Mapbox_Map_Config_Zoom;
-module Style = Mapbox_Map_Config_Style;
+module Style = {
+  type owner = string;
+  type styleID = string;
+
+  type t =
+    | Streets
+    | Outdoors
+    | Light
+    | Dark
+    | Satellite
+    | SatelliteStreets
+    | NavPreviewDay
+    | NavPreviewNight
+    | NavGuidanceDay
+    | NavGuidanceNight
+    | LoadNamed(owner, styleID)
+    | LoadJSON(string)
+    | RawStyle(Js.Json.t) /* TODO: this actually has to have certain fields */
+  ;
+
+  let tToJs = (data: t): Js.Json.t => switch data {
+  | Streets => Js.Json.string("mapbox://styles/mapbox/streets-v10")
+  | Outdoors => Js.Json.string("mapbox://styles/mapbox/outdoors-v10")
+  | Light => Js.Json.string("mapbox://styles/mapbox/light-v9")
+  | Dark => Js.Json.string("mapbox://styles/mapbox/dark-v9")
+  | Satellite => Js.Json.string("mapbox://styles/mapbox/satellite-v9")
+  | SatelliteStreets => Js.Json.string("mapbox://styles/mapbox/satellite-streets-v10")
+  | NavPreviewDay => Js.Json.string("mapbox://styles/mapbox/navigation-preview-day-v2")
+  | NavPreviewNight => Js.Json.string("mapbox://styles/mapbox/navigation-preview-night-v2")
+  | NavGuidanceDay => Js.Json.string("mapbox://styles/mapbox/navigation-guidance-day-v2")
+  | NavGuidanceNight => Js.Json.string("mapbox://styles/mapbox/navigation-guidance-night-v2")
+  | LoadNamed(owner, id) => Js.Json.string("mapbox://styles/" ++ owner ++ "/" ++ id)
+  | LoadJSON(url) => Js.Json.string(url)
+  | RawStyle(data) => data
+  };
+};
 
 module LogoPosition = {
   type t =
@@ -35,8 +67,8 @@ module MapContainer = {
 
 type t = {
   container: MapContainer.t,
-  minZoom: option(Zoom.t), /* default: 0 */
-  maxZoom: option(Zoom.t), /* default 22 */
+  minZoom: option(float), /* default: 0.0 */
+  maxZoom: option(float), /* default 22.0 */
   style: Style.t,
   hash: option(bool), /* default false */
   interactive: option(bool), /* default true */
@@ -47,7 +79,7 @@ type t = {
   failIfMajorPerformanceCaveat: option(bool), /* default false */
   preserveDrawingBuffer: option(bool), /* default false */
   refreshExpiredTiles: option(bool), /*default true */
-  maxBounds: option(LngLatBounds.t),
+  maxBounds: option(Mapbox_GL_LngLatBounds.t),
   scrollZoom: option(bool), /* default true  */
   boxZoom: option(bool), /* default true */
   dragRotate: option(bool), /* default true */
@@ -56,14 +88,14 @@ type t = {
   doubleClickZoom: option(bool), /* default true */
   touchZoomRotate: option(bool), /* TODO: or object with options for handler */
   trackResize: option(bool), /* Resize map when browser resizes, default true */
-  center: option(LngLat.t), /* default [0. 0] */
-  zoom: option(Zoom.t) /* default 0 */
+  center: option(Mapbox_GL_LngLat.t), /* default [0. 0] */
+  zoom: option(float) /* default 0.0 */
 };
 
 type jsObj = {.
   "container": MapContainer.t_js,
-  "minZoom": Js.undefined(int),
-  "maxZoom": Js.undefined(int),
+  "minZoom": Js.undefined(float),
+  "maxZoom": Js.undefined(float),
   "style": Js.Json.t,
   "hash": Js.undefined(bool),
   "interactive": Js.undefined(bool),
@@ -74,7 +106,7 @@ type jsObj = {.
   "failIfMajorPerformanceCaveat": Js.undefined(bool),
   "preserveDrawingBuffer": Js.undefined(bool),
   "refreshExpiredTiles": Js.undefined(bool),
-  "maxBounds": Js.undefined(LngLatBounds.t),
+  "maxBounds": Js.undefined(Mapbox_GL_LngLatBounds.t),
   "scrollZoom": Js.undefined(bool),
   "boxZoom": Js.undefined(bool),
   "dragRotate": Js.undefined(bool),
@@ -83,8 +115,8 @@ type jsObj = {.
   "doubleClickZoom": Js.undefined(bool),
   "touchZoomRotate": Js.undefined(bool),
   "trackResize": Js.undefined(bool),
-  "center": Js.undefined(LngLat.t),
-  "zoom": Js.undefined(int)
+  "center": Js.undefined(Mapbox_GL_LngLat.t),
+  "zoom": Js.undefined(float)
 };
 
 let make = (
@@ -128,8 +160,8 @@ let make = (
  */
 [@bs.obj] external makeConfig : (
   ~container: MapContainer.t_js,
-  ~minZoom: int=?,
-  ~maxZoom: int=?,
+  ~minZoom: float=?,
+  ~maxZoom: float=?,
   ~style: Js.Json.t,
   ~hash: bool=?,
   ~interactive: bool=?,
@@ -140,7 +172,7 @@ let make = (
   ~failIfMajorPerformanceCaveat: bool=?,
   ~preserveDrawingBuffer: bool=?,
   ~refreshExpiredTiles: bool=?,
-  ~maxBounds: LngLatBounds.t=?,
+  ~maxBounds: Mapbox_GL_LngLatBounds.t=?,
   ~scrollZoom: bool=?,
   ~boxZoom: bool=?,
   ~dragRotate: bool=?,
@@ -149,8 +181,8 @@ let make = (
   ~doubleClickZoom: bool=?,
   ~touchZoomRotate: bool=?,
   ~trackResize: bool=?,
-  ~center: LngLat.t=?,
-  ~zoom: int=?,
+  ~center: Mapbox_GL_LngLat.t=?,
+  ~zoom: float=?,
   unit
 ) => _ = "";
 
@@ -159,8 +191,8 @@ let tToJs = (data: t): jsObj => {
 
   makeConfig(
     ~container= MapContainer.tToJs(data.container),
-    ~minZoom= ?data.minZoom |. map(Zoom.tToJs),
-    ~maxZoom= ?data.maxZoom |. map(Zoom.tToJs),
+    ~minZoom= ?data.minZoom,
+    ~maxZoom= ?data.maxZoom,
     ~style= data.style |> Style.tToJs,
     ~hash= ?data.hash,
     ~interactive= ?data.interactive,
@@ -181,7 +213,7 @@ let tToJs = (data: t): jsObj => {
     ~touchZoomRotate= ?data.touchZoomRotate,
     ~trackResize= ?data.trackResize,
     ~center= ?data.center,
-    ~zoom= ?data.zoom |. map(Zoom.tToJs),
+    ~zoom= ?data.zoom,
     ()
   );
 };
