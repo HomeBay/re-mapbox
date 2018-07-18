@@ -25,4 +25,9 @@ type t = {.
 };
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
-external create: Config.jsObj => t = "Map";
+external createExn: Config.jsObj => t = "Map";
+
+let create = cfg =>
+  try (Belt.Result.Ok(createExn(cfg))) {
+  | _ => Belt.Result.Error("Failed to initialize MapboxGL")
+  };

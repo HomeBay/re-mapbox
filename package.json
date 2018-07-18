@@ -4,7 +4,7 @@
   "description": "Mapbox GL bindings for ReasonML",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "bsb -make-world"
+    "build": "bsb -clean-world -make-world"
   },
   "author": "mlms13",
   "license": "ISC",
