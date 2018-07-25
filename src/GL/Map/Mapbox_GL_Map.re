@@ -21,7 +21,11 @@ type t = {.
   [@bs.meth] "on": (string, eventData => unit) => t,
   [@bs.meth] "remove": unit => unit,
   [@bs.meth] "resize": unit => unit,
-  [@bs.meth] "getBounds": unit => Mapbox_GL_LngLatBounds.t
+  [@bs.meth] "getBounds": unit => Mapbox_GL_LngLatBounds.t,
+  [@bs.meth] "addLayer": Mapbox_GL_Layer.t_js => t,
+  [@bs.meth] "removeLayer": string => t, /* TODO: docs don't specify return */
+  [@bs.meth] "addSource": string => Mapbox_GL_Source.t_js => t,
+  [@bs.meth] "removeSource": string => t
 };
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
