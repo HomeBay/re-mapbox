@@ -18,6 +18,19 @@ type t =
   | GeoJSON(geoJsonSource)
   ;
 
+let geoJSON = (
+  ~data=?,
+  ~maxzoom=?,
+  ~attribution=?,
+  ~buffer=?,
+  ~tolerance=?,
+  ~cluster=?,
+  ~clusterRadius=?,
+  ~clusterMaxZoom=?,
+  ~lineMetrics=?,
+  ()
+) => GeoJSON({ data, maxzoom, attribution, buffer, tolerance, cluster, clusterRadius, clusterMaxZoom, lineMetrics });
+
 [@bs.deriving abstract]
 type t_js = {
   [@bs.as "type"] _type: string,
