@@ -97,5 +97,6 @@ let tToJS = v => t_js(
   ~maxzoom= ?v.maxZoom,
   ~filter= ?v.filter,
   ~layout= ?v.layout,
-  ~paint= ?v.paint
+  ~paint= ?v.paint,
+  ()
 );
