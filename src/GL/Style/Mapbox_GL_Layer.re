@@ -63,14 +63,14 @@ let make = (
   ()
 ) => { id, _type, metadata, sourceLayer, minZoom, maxZoom, filter, layout, paint };
 
-let fill = sourceId => make(~_type=Fill(sourceId));
-let line = sourceId => make(~_type=Line(sourceId));
-let symbol = sourceId => make(~_type=Symbol(sourceId));
-let circle = sourceId => make(~_type=Circle(sourceId));
-let heatmap = sourceId => make(~_type=Heatmap(sourceId));
-let fillExtrusion = sourceId => make(~_type=FillExtrusion(sourceId));
-let raster = sourceId => make(~_type=Raster(sourceId));
-let hillshade = sourceId => make(~_type=Hillshade(sourceId));
+let fill = (~sourceId) => make(~_type=Fill(sourceId));
+let line = (~sourceId) => make(~_type=Line(sourceId));
+let symbol = (~sourceId) => make(~_type=Symbol(sourceId));
+let circle = (~sourceId) => make(~_type=Circle(sourceId));
+let heatmap = (~sourceId) => make(~_type=Heatmap(sourceId));
+let fillExtrusion = (~sourceId) => make(~_type=FillExtrusion(sourceId));
+let raster = (~sourceId) => make(~_type=Raster(sourceId));
+let hillshade = (~sourceId) => make(~_type=Hillshade(sourceId));
 let background = make(~_type=Background);
 
 [@bs.deriving abstract]
