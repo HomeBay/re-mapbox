@@ -46,6 +46,9 @@ module Marker = Mapbox_GL_Marker;
 
 /* TODO: User Interaction Handlers */
 
-/* TODO: Sources */
+/**
+ * Style Specification (e.g. layers, sources...)
+ */
+module Style = Mapbox_GL_Style;
 
 /* TODO: Events */
