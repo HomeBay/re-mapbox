@@ -12,7 +12,7 @@ let latLong = (~latitude, ~longitude) =>
   make(~latitude, ~longitude, ());
 
 let toArray = ({ latitude, longitude, altitude }) => {
-  let out = [| latitude, longitude |];
+  let out = [| longitude, latitude |];
   switch altitude {
   | Some(n) => Js.Array.concat(out, [| n |])
   | None => out
