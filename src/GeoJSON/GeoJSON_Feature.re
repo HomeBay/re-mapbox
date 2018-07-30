@@ -8,6 +8,9 @@ type t = {
   properties: option(Js.Dict.t(Js.Json.t))
 };
 
+let make = (~id=?, ~geometry=?, ~properties=?, ()) =>
+  { id, geometry, properties };
+
 let toJSONFields = ({ id, geometry, properties }) => {
   open Js.Json;
 
