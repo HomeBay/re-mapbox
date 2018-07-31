@@ -41,7 +41,10 @@ type t = {.
   [@bs.meth] "removeLayer": string => t, /* TODO: docs don't specify return */
   [@bs.meth] "addSource": string => Mapbox_GL_Source.t_js => t,
   [@bs.meth] "getSource": string => Js.undefined(source),
-  [@bs.meth] "removeSource": string => t
+  [@bs.meth] "removeSource": string => t,
+  [@bs.meth] "getContainer": unit => Dom.element,
+  [@bs.meth] "getCanvasContainer": unit => Dom.element,
+  [@bs.meth] "getCanvas": unit => Dom.element,
 };
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
