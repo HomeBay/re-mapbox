@@ -15,7 +15,7 @@ type callback('a) = (Js.null(string), 'a) => unit;
 
 /* This thing is confusing. It's probably the original object you provided when
    creating the source, but with extra methods added to it, depending on what
-   "type" of source it is. For now, We just expose all methods to you.
+   "type" of source it is. For now, we just expose all methods to you.
 */
 type source = {.
   [@bs.meth] "setData": Js.Json.t => source,
@@ -32,6 +32,7 @@ type t = {.
   [@bs.meth] "fitBounds": Mapbox_GL_LngLatBounds.t => FitOptions.t_js => t,
   [@bs.meth] "fitBounds__eventData": Mapbox_GL_LngLatBounds.t => FitOptions.t_js => Js.Dict.t(Js.Json.t) => t,
   [@bs.meth] "on": (string, eventData => unit) => t,
+  [@bs.meth] "on__layerEvent": (string, string, eventData => unit) => t,
   [@bs.meth] "remove": unit => unit,
   [@bs.meth] "resize": unit => unit,
   [@bs.meth] "getBounds": unit => Mapbox_GL_LngLatBounds.t,
