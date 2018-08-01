@@ -70,6 +70,7 @@ type t = {.
 
   /* Methods to deal with internal state, cleanup, and more */
   [@bs.meth] "getBounds": unit => Mapbox_GL_LngLatBounds.t,
+  [@bs.meth] "getZoom": unit => float,
   [@bs.meth] "queryRenderedFeatures": (Mapbox_GL_Point.t, QueryRenderedFeaturesOptions.t) => array(Js.Json.t),
   [@bs.meth] "resize": unit => unit,
   [@bs.meth] "remove": unit => unit,
