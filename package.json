@@ -8,8 +8,8 @@
   },
   "author": "mlms13",
   "license": "ISC",
-  "dependencies": {
-    "mapbox-gl": "^0.46.0"
+  "peerDependencies": {
+    "mapbox-gl": "^0.47.0"
   },
   "devDependencies": {
     "bs-platform": "^4.0.1"
