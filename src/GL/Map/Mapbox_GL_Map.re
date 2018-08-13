@@ -73,6 +73,7 @@ type t = {.
   [@bs.meth] "getZoom": unit => float,
   [@bs.meth] "queryRenderedFeatures": (Mapbox_GL_Point.t, QueryRenderedFeaturesOptions.t) => array(Js.Json.t),
   [@bs.meth] "resize": unit => unit,
+  [@bs.meth] "resize__eventData": Js.Dict.t(Js.Json.t) => unit,
   [@bs.meth] "remove": unit => unit,
 };
 
