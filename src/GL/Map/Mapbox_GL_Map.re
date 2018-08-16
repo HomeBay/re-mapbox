@@ -41,41 +41,7 @@ type mapPosition = {.
 
 type eventData = Js.Dict.t(Js.Json.t);
 
-type t = {.
-  /* Methods to position the map */
-  [@bs.meth] "setCenter": Mapbox_GL_LngLat.t => t,
-  [@bs.meth] "setZoom": float => t,
-  [@bs.meth] "fitBounds": Mapbox_GL_LngLatBounds.t => FitOptions.t_js => t,
-  [@bs.meth] "fitBounds__eventData": Mapbox_GL_LngLatBounds.t => FitOptions.t_js => Js.Dict.t(Js.Json.t) => t,
-  [@bs.meth] "easeTo": mapPosition => t,
-
-  /* Methods to deal with events */
-  [@bs.meth] "on": (string, eventData => unit) => t,
-  [@bs.meth] "on__layerEvent": (string, string, eventData => unit) => t,
-  [@bs.meth] "off": (string, eventData => unit) => t,
-  [@bs.meth] "off__layerEvent": (string, string, eventData => unit) => t,
-
-  /* Methods to deal with layers and sources */
-  [@bs.meth] "addLayer": Mapbox_GL_Layer.t_js => t,
-  [@bs.meth] "getLayer": string => Js.undefined(Mapbox_GL_Layer.t_js),
-  [@bs.meth] "removeLayer": string => t, /* TODO: docs don't specify return */
-  [@bs.meth] "addSource": string => Mapbox_GL_Source.t_js => t,
-  [@bs.meth] "getSource": string => Js.undefined(source),
-  [@bs.meth] "removeSource": string => t,
-
-  /* Methods to deal with DOM elements */
-  [@bs.meth] "getContainer": unit => Dom.element,
-  [@bs.meth] "getCanvasContainer": unit => Dom.element,
-  [@bs.meth] "getCanvas": unit => Dom.element,
-
-  /* Methods to deal with internal state, cleanup, and more */
-  [@bs.meth] "getBounds": unit => Mapbox_GL_LngLatBounds.t,
-  [@bs.meth] "getZoom": unit => float,
-  [@bs.meth] "queryRenderedFeatures": (Mapbox_GL_Point.t, QueryRenderedFeaturesOptions.t) => array(Js.Json.t),
-  [@bs.meth] "resize": unit => unit,
-  [@bs.meth] "resize__eventData": Js.Dict.t(Js.Json.t) => unit,
-  [@bs.meth] "remove": unit => unit,
-};
+type t;
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
 external createExn: Config.jsObj => t = "Map";
@@ -84,3 +50,54 @@ let create = cfg =>
   try (Belt.Result.Ok(createExn(cfg))) {
   | _ => Belt.Result.Error("Failed to initialize MapboxGL")
   };
+
+/* Methods to position the map */
+[@bs.send] external setCenter: (t, float) => t = "setCenter";
+[@bs.send] external setZoom: (t, float) => t = "setZoom";
+[@bs.send] external fitBounds: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t_js) => t = "fitBounds";
+[@bs.send] external fitBoundsWithEventData: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t_js, Js.Dict.t(Js.Json.t)) => t = "fitBounds";
+[@bs.send] external easeTo: (t, mapPosition) => t = "easeTo";
+
+/* Methods to deal with events */
+[@bs.send] external on: (t, string, eventData => unit) => t = "on";
+[@bs.send] external onLayerEvent: (t, string, string, eventData => unit) => t = "on";
+[@bs.send] external off: (t, string, eventData => unit) => t = "off";
+[@bs.send] external offLayerEvent: (t, string, string, eventData => unit) => t = "off";
+
+/* Helpers for working with specific kinds of events */
+let onClick = (map, callback) => on(map, "click", callback);
+let onMouseEnter = (map, callback) => on(map, "mouseenter", callback);
+let onMouseLeave = (map, callback) => on(map, "mouseleave", callback);
+
+let onLayerClick = (map, layerId, callback) => onLayerEvent(map, "click", layerId, callback);
+let onLayerMouseEnter = (map, layerId, callback) => onLayerEvent(map, "mouseenter", layerId, callback);
+let onLayerMouseLeave = (map, layerId, callback) => onLayerEvent(map, "mouseleave", layerId, callback);
+
+let offClick = (map, callback) => off(map, "click", callback);
+let offMouseEnter = (map, callback) => off(map, "mouseenter", callback);
+let offMouseLeave = (map, callback) => off(map, "mouseleave", callback);
+
+let offLayerClick = (map, layerId, callback) => offLayerEvent(map, "click", layerId, callback);
+let offLayerMouseEnter = (map, layerId, callback) => offLayerEvent(map, "mouseenter", layerId, callback);
+let offLayerMouseLeave = (map, layerId, callback) => offLayerEvent(map, "mouseleave", layerId, callback);
+
+/* Methods to deal with layers and sources */
+[@bs.send] external addLayer: (t, Mapbox_GL_Layer.t_js) => t = "addLayer";
+[@bs.send] external getLayer: (t, string) => Js.undefined(Mapbox_GL_Layer.t_js) = "getLayer";
+[@bs.send] external removeLayer: (t, string) => unit = "removeLayer"; /* TODO: docs don't specify return */
+[@bs.send] external addSource: (t, string) => Mapbox_GL_Source.t_js => t = "addSource";
+[@bs.send] external getSource: (t, string) => Js.undefined(source) = "getSource";
+[@bs.send] external removeSource: (t, string) => t = "removeSource";
+
+/* Methods to deal with DOM elements */
+[@bs.send] external getContainer: t => Dom.element = "getContainer";
+[@bs.send] external getCanvasContainer: t => Dom.element = "getCanvasContainer";
+[@bs.send] external getCanvas: t => Dom.element = "getCanvas";
+
+/* Methods to deal with internal state, cleanup, and more */
+[@bs.send] external getBounds: t => Mapbox_GL_LngLatBounds.t = "getBounds";
+[@bs.send] external getZoom: t => float = "getZoom";
+[@bs.send] external queryRenderedFeatures: (t, Mapbox_GL_Point.t, QueryRenderedFeaturesOptions.t) => array(Js.Json.t) = "queryRenderedFeatures";
+[@bs.send] external resize: t => unit = "resize";
+[@bs.send] external resizeEventData: t => Js.Dict.t(Js.Json.t) => unit = "resizeEventData";
+[@bs.send] external remove: t => unit = "remove";
