@@ -3,8 +3,10 @@
  * Using the `mapboxgl` value below will require the node module.
  */
 type t;
-type supportedOpts = {.
-  "failIfMajorPerformanceCaveat": bool
+
+[@bs.deriving abstract]
+type supportedOpts = {
+  failIfMajorPerformanceCaveat: bool
 };
 
 [@bs.val] [@bs.module] external mapboxgl: t = "mapbox-gl/dist/mapbox-gl.js";
@@ -15,14 +17,16 @@ type supportedOpts = {.
 
 /* TODO: unclear what argument is passed to the callback in the case of an error
    because docs don't mention it and examples don't include this callback. */
-[@bs.send] external setRTLTextPlugin : (t, string, (string => unit)) => unit = "setRTLTextPlugin";
+[@bs.send] external setRTLTextPlugin : (t, string) => unit = "setRTLTextPlugin";
+[@bs.send] external setRTLTextPluginWithCallback : (t, string, (string => unit)) => unit = "setRTLTextPlugin";
 
 /**
  * Base API includes Map and lots of `Options` definitions used elsewhere
  */
 module Map = Mapbox_GL_Map;
-/* TODO: Animation Options */
-/* TODO: Camera Options */
+module AnimationOptions = Mapbox_GL_AnimationOptions;
+module CameraOptions = Mapbox_GL_CameraOptions;
+module CameraAnimationOptions = Mapbox_GL_CameraAnimationOptions;
 /* TODO: Padding Options */
 /* TODO: Request Parameters */
 

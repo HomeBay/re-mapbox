@@ -1,14 +1,10 @@
 module Config = Mapbox_GL_Map_Config;
 
 module FitOptions = {
-  type t_js = {.
-    "duration": Js.undefined(int) /* in ms */
+  [@bs.deriving abstract]
+  type t = {
+    [@bs.optional] duration: int, /* time in ms */
   };
-
-  [@bs.obj] external makeJs : (
-    ~duration: int=?,
-    unit
-  ) => _ = ""
 };
 
 module QueryRenderedFeaturesOptions = {
@@ -32,13 +28,6 @@ type source = {.
   [@bs.meth] "getClusterLeaves": (float, float, float, callback(Js.Json.t)) => source
 };
 
-/* TODO: I just filled in what I need, but this should be better-defined. */
-/* In reality, this is the combination of CameraOptions and AnimationOptions */
-type mapPosition = {.
-  "center": Mapbox_GL_LngLat.t,
-  "zoom": float
-};
-
 type eventData = Js.Dict.t(Js.Json.t);
 
 type t;
@@ -54,9 +43,9 @@ let create = cfg =>
 /* Methods to position the map */
 [@bs.send] external setCenter: (t, float) => t = "setCenter";
 [@bs.send] external setZoom: (t, float) => t = "setZoom";
-[@bs.send] external fitBounds: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t_js) => t = "fitBounds";
-[@bs.send] external fitBoundsWithEventData: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t_js, Js.Dict.t(Js.Json.t)) => t = "fitBounds";
-[@bs.send] external easeTo: (t, mapPosition) => t = "easeTo";
+[@bs.send] external fitBounds: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t) => t = "fitBounds";
+[@bs.send] external fitBoundsWithEventData: (t, Mapbox_GL_LngLatBounds.t, FitOptions.t, Js.Dict.t(Js.Json.t)) => t = "fitBounds";
+[@bs.send] external easeTo: (t, Mapbox_GL_CameraAnimationOptions.t) => t = "easeTo";
 
 /* Methods to deal with events */
 [@bs.send] external on: (t, string, eventData => unit) => t = "on";
@@ -83,10 +72,10 @@ let offLayerMouseLeave = (map, layerId, callback) => offLayerEvent(map, "mousele
 
 /* Methods to deal with layers and sources */
 [@bs.send] external addLayer: (t, Mapbox_GL_Layer.t_js) => t = "addLayer";
-[@bs.send] external getLayer: (t, string) => Js.undefined(Mapbox_GL_Layer.t_js) = "getLayer";
+[@bs.send][@bs.return nullable] external getLayer: (t, string) => option(Mapbox_GL_Layer.t_js) = "getLayer";
 [@bs.send] external removeLayer: (t, string) => unit = "removeLayer"; /* TODO: docs don't specify return */
 [@bs.send] external addSource: (t, string) => Mapbox_GL_Source.t_js => t = "addSource";
-[@bs.send] external getSource: (t, string) => Js.undefined(source) = "getSource";
+[@bs.send][@bs.return nullable] external getSource: (t, string) => option(source) = "getSource";
 [@bs.send] external removeSource: (t, string) => t = "removeSource";
 
 /* Methods to deal with DOM elements */
