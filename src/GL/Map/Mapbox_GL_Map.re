@@ -88,5 +88,5 @@ let offLayerMouseLeave = (map, layerId, callback) => offLayerEvent(map, "mousele
 [@bs.send] external getZoom: t => float = "getZoom";
 [@bs.send] external queryRenderedFeatures: (t, Mapbox_GL_Point.t, QueryRenderedFeaturesOptions.t) => array(Js.Json.t) = "queryRenderedFeatures";
 [@bs.send] external resize: t => unit = "resize";
-[@bs.send] external resizeEventData: t => Js.Dict.t(Js.Json.t) => unit = "resizeEventData";
+[@bs.send] external resizeWithEventData: t => Js.Dict.t(Js.Json.t) => unit = "resizeEventData";
 [@bs.send] external remove: t => unit = "remove";
