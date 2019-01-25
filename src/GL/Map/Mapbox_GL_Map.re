@@ -1,11 +1,5 @@
-module Config = Mapbox_GL_Map_Config;
-
-module FitOptions = {
-  [@bs.deriving abstract]
-  type t = {
-    [@bs.optional] duration: int, /* time in ms */
-  };
-};
+module Options = Mapbox_GL_Map_Options;
+module FitOptions = Mapbox_GL_Map_FitOptions;
 
 module QueryRenderedFeaturesOptions = {
   [@bs.deriving abstract]
@@ -33,7 +27,7 @@ type eventData = Js.Dict.t(Js.Json.t);
 type t;
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
-external createExn: Config.jsObj => t = "Map";
+external createExn: Options.t => t = "Map";
 
 let create = cfg =>
   try (Belt.Result.Ok(createExn(cfg))) {
