@@ -4,6 +4,7 @@ node_modules
 
 # generated
 /lib/bs
+/lib/js
 /dist
 .merlin
 
