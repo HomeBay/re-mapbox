@@ -12,6 +12,6 @@
     "mapbox-gl": "^0.52.0"
   },
   "devDependencies": {
-    "bs-platform": "^4.0.18"
+    "bs-platform": "^5.0.0-dev.5"
   }
 }
