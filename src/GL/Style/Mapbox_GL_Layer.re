@@ -1,3 +1,4 @@
+/* TODO: i think this could be a literal source json, not just id string */
 type sourceId = string;
 
 type layerType =
