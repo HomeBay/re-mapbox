@@ -40,7 +40,7 @@ module LngLatBounds = Mapbox_GL_LngLatBounds;
 /**
  * User Interface types and helpers
  */
-/* TODO: Navigation Control */
+module Navigation = Mapbox_GL_NavigationControl;
 /* TODO: Geolocate Control */
 /* TODO: Attribution Control */
 /* TODO: Scale Control */

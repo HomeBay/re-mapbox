@@ -23,17 +23,7 @@ module Style = {
   let navGuidanceNight = mapboxStyle("navigation-guidance-night-v2");
 };
 
-module LogoPosition = {
-  type t;
-
-  /* TODO: hide from rei */
-  external fromString: string => t = "%identity";
-
-  let topLeft = fromString("top-left");
-  let topRight = fromString("top-right");
-  let bottomLeft = fromString("bottom-left");
-  let bottomRight = fromString("bottom-right");
-};
+module Corner = Mapbox_GL_Map_Corner;
 
 module MapContainer = {
   type t;
@@ -59,7 +49,7 @@ type t = {
   [@bs.optional] pitchWithRotate: bool, /* default: true */
   [@bs.optional] attributionControl: bool, /* default: true */
   [@bs.optional] customAttribution: array(string),
-  [@bs.optional] logoPosition: LogoPosition.t, /* default: bottomLeft */
+  [@bs.optional] logoPosition: Corner.t, /* default: bottomLeft */
   [@bs.optional] failIfMajorPerformanceCaveat: bool, /* default: false */
   [@bs.optional] preserveDrawingBuffer: bool, /* default: false */
   [@bs.optional] refreshExpiredTiles: bool, /* default: true */

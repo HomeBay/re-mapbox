@@ -27,10 +27,10 @@ type eventData = Js.Dict.t(Js.Json.t);
 type t;
 
 [@bs.new][@bs.module "mapbox-gl/dist/mapbox-gl.js"]
-external createExn: Options.t => t = "Map";
+external makeExn: Options.t => t = "Map";
 
-let create = cfg =>
-  try (Belt.Result.Ok(createExn(cfg))) {
+let make = cfg =>
+  try (Belt.Result.Ok(makeExn(cfg))) {
   | _ => Belt.Result.Error("Failed to initialize MapboxGL")
   };
 
@@ -64,13 +64,15 @@ let offLayerClick = (map, layerId, callback) => offLayerEvent(map, "click", laye
 let offLayerMouseEnter = (map, layerId, callback) => offLayerEvent(map, "mouseenter", layerId, callback);
 let offLayerMouseLeave = (map, layerId, callback) => offLayerEvent(map, "mouseleave", layerId, callback);
 
-/* Methods to deal with layers and sources */
-[@bs.send] external addLayer: (t, Mapbox_GL_Layer.t_js) => t = "addLayer";
-[@bs.send][@bs.return nullable] external getLayer: (t, string) => option(Mapbox_GL_Layer.t_js) = "getLayer";
-[@bs.send] external removeLayer: (t, string) => unit = "removeLayer"; /* TODO: docs don't specify return */
-[@bs.send] external addSource: (t, string) => Mapbox_GL_Source.t_js => t = "addSource";
-[@bs.send][@bs.return nullable] external getSource: (t, string) => option(source) = "getSource";
-[@bs.send] external removeSource: (t, string) => t = "removeSource";
+/* Methods to deal with ui/layers and sources */
+[@bs.send] external addLayer: (t, Mapbox_GL_Layer.t_js) => t = "";
+[@bs.send][@bs.return nullable] external getLayer: (t, string) => option(Mapbox_GL_Layer.t_js) = "";
+[@bs.send] external removeLayer: (t, string) => unit = ""; /* TODO: docs don't specify return */
+[@bs.send] external addSource: (t, string) => Mapbox_GL_Source.t_js => t = "";
+[@bs.send][@bs.return nullable] external getSource: (t, string) => option(source) = "";
+[@bs.send] external removeSource: (t, string) => t = "";
+[@bs.send] external addControl: (t, Mapbox_GL_Control.t) => t = "";
+[@bs.send] external addControlToCorner: (t, Mapbox_GL_Control.t, Mapbox_GL_Map_Corner.t) => t = "addControl";
 
 /* Methods to deal with DOM elements */
 [@bs.send] external getContainer: t => Dom.element = "getContainer";
