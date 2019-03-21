@@ -68,7 +68,7 @@ let offLayerMouseLeave = (map, layerId, callback) => offLayerEvent(map, "mousele
 [@bs.send] external addLayer: (t, Mapbox_GL_Layer.t_js) => t = "";
 [@bs.send][@bs.return nullable] external getLayer: (t, string) => option(Mapbox_GL_Layer.t_js) = "";
 [@bs.send] external removeLayer: (t, string) => unit = ""; /* TODO: docs don't specify return */
-[@bs.send] external addSource: (t, string) => Mapbox_GL_Source.t_js => t = "";
+[@bs.send] external addSource: (t, string, Mapbox_GL_Source.t) => t = "";
 [@bs.send][@bs.return nullable] external getSource: (t, string) => option(source) = "";
 [@bs.send] external removeSource: (t, string) => t = "";
 [@bs.send] external addControl: (t, Mapbox_GL_Control.t) => t = "";
