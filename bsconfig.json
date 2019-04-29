@@ -1,7 +1,6 @@
 {
   "name": "re-mapbox",
-  "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
-  "reason": {"react-jsx" : 2},
+  "bsc-flags": ["-bs-no-version-header"],
 
   "bs-dependencies": [],
   "sources": [{
@@ -10,11 +9,12 @@
   }],
   "package-specs": {
     "module": "commonjs",
-    "in-source": false
+    "in-source": true
   },
   "refmt": 3,
   "suffix": ".bs.js",
   "warnings": {
+    "number": "+A",
     "error": "+8+11"
   }
 }

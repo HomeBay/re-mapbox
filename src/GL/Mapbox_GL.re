@@ -48,6 +48,9 @@ module Navigation = Mapbox_GL_NavigationControl;
 /* TODO: Popup */
 module Marker = Mapbox_GL_Marker;
 
+/* Included extenions */
+module DrawControl = Mapbox_GL_DrawControl;
+
 /* TODO: User Interaction Handlers */
 
 /**
