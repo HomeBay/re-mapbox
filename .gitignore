@@ -5,6 +5,7 @@ node_modules
 # generated
 /lib/bs
 /lib/js
+/lib/ocaml
 /dist
 .merlin
 .bsb.lock

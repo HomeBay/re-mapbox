@@ -63,11 +63,12 @@ module Options = {
 
 type t('state);
 
-[@bs.new] [@bs.module "@mapbox/mapbox-gl-draw"]
-external make: unit => t(unit) = "MapboxDraw";
+[@bs.new] [@bs.module]
+external make: unit => t(unit) = "@mapbox/mapbox-gl-draw";
 
-[@bs.new] [@bs.module "@mapbox/mapbox-gl-draw"]
-external makeWithOptions: Options.t('state) => t('state) = "MapboxDraw";
+[@bs.new] [@bs.module]
+external makeWithOptions: Options.t('state) => t('state) =
+  "@mapbox/mapbox-gl-draw";
 
 external toControl: t('a) => Mapbox_GL_Control.t = "%identity";
 
@@ -220,3 +221,5 @@ let onModeChange = (map, callback) =>
 
 // TODO: render
 // TODO: actionable
+
+let x = make();
