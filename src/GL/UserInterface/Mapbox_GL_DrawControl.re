@@ -221,5 +221,3 @@ let onModeChange = (map, callback) =>
 
 // TODO: render
 // TODO: actionable
-
-let x = make();
