@@ -1,13 +1,19 @@
 {
   "name": "re-mapbox",
-  "version": "0.1.0",
-  "description": "Mapbox GL bindings for ReasonML",
+  "version": "0.3.0",
+  "description": "Mapbox GL bindings for ReasonML and Bucklescript",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bsb -clean-world -make-world"
   },
-  "author": "mlms13",
-  "license": "ISC",
+  "author": "Michael Martin-Smucker",
+  "license": "MIT",
+  "homepage": "https://github.com/HomeBay/re-mapbox",
+  "bugs": "https://github.com/HomeBay/re-mapbox/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HomeBay/re-mapbox.git"
+  },
   "peerDependencies": {
     "@mapbox/mapbox-gl-draw": "^1.1.1",
     "mapbox-gl": "^0.52.0"
