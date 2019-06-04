@@ -64,7 +64,7 @@ module Options = {
 type t('state);
 
 [@bs.new] [@bs.module]
-external make: unit => t(unit) = "@mapbox/mapbox-gl-draw";
+external make: unit => t(unit) = "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 
 [@bs.new] [@bs.module]
 external makeWithOptions: Options.t('state) => t('state) =
