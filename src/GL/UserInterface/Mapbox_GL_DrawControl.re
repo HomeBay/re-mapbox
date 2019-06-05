@@ -68,7 +68,7 @@ external make: unit => t(unit) = "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 
 [@bs.new] [@bs.module]
 external makeWithOptions: Options.t('state) => t('state) =
-  "@mapbox/mapbox-gl-draw";
+  "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 
 external toControl: t('a) => Mapbox_GL_Control.t = "%identity";
 
