@@ -1,17 +1,11 @@
-module EventData = {
-  type withFeatures;
-  type withMode;
+module EventWithFeatures = {
+  type t;
+  [@bs.get] external features: t => array(Js.Json.t) = "features";
+};
 
-  external unsafeMapEventWithFeatures: Mapbox_GL_Map.eventData => withFeatures =
-    "%identity";
-
-  external unsafeMapEventWithMode: Mapbox_GL_Map.eventData => withMode =
-    "%identity";
-
-  [@bs.get]
-  external getFeatures: withFeatures => array(Js.Json.t) = "features";
-
-  [@bs.get] external getMode: withMode => string = "mode";
+module EventWithMode = {
+  type t;
+  [@bs.get] external mode: t => string = "mode";
 };
 
 // TODO: Modes are probably pretty incomplete. There's a lot going on here, and
@@ -64,7 +58,7 @@ module Options = {
 type t('state);
 
 [@bs.new] [@bs.module]
-external make: unit => t(unit) = "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
+external make: unit => t('a) = "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw";
 
 [@bs.new] [@bs.module]
 external makeWithOptions: Options.t('state) => t('state) =
@@ -190,34 +184,43 @@ external changeMode: (t('state), string, 'state) => t('state) = "";
 
 // Events
 
-let onCreate = (map, callback) =>
-  Mapbox_GL_Map.on(map, "draw.create", e =>
-    callback(EventData.unsafeMapEventWithFeatures(e))
-  );
+[@bs.send]
+external onCreate:
+  (Mapbox_GL_Map.t, [@bs.as "draw.create"] _, EventWithFeatures.t => unit) =>
+  Mapbox_GL_Map.t =
+  "on";
 
-let onDelete = (map, callback) =>
-  Mapbox_GL_Map.on(map, "draw.delete", e =>
-    callback(EventData.unsafeMapEventWithFeatures(e))
-  );
+[@bs.send]
+external onDelete:
+  (Mapbox_GL_Map.t, [@bs.as "draw.delete"] _, EventWithFeatures.t => unit) =>
+  Mapbox_GL_Map.t =
+  "on";
 
 // TODO: combine
 // TODO: uncombine
 
 // TODO: the `update` event also has e.action == "move" | "change_coordinates"
-let onUpdate = (map, callback) =>
-  Mapbox_GL_Map.on(map, "draw.update", e =>
-    callback(EventData.unsafeMapEventWithFeatures(e))
-  );
+[@bs.send]
+external onUpdate:
+  (Mapbox_GL_Map.t, [@bs.as "draw.update"] _, EventWithFeatures.t => unit) =>
+  Mapbox_GL_Map.t =
+  "on";
 
-let onSelectionChange = (map, callback) =>
-  Mapbox_GL_Map.on(map, "draw.selectionchange", e =>
-    callback(EventData.unsafeMapEventWithFeatures(e))
-  );
+[@bs.send]
+external onSelectionChange:
+  (
+    Mapbox_GL_Map.t,
+    [@bs.as "draw.selectionchange"] _,
+    EventWithFeatures.t => unit
+  ) =>
+  Mapbox_GL_Map.t =
+  "on";
 
-let onModeChange = (map, callback) =>
-  Mapbox_GL_Map.on(map, "draw.modechange", e =>
-    callback(EventData.unsafeMapEventWithMode(e))
-  );
+[@bs.send]
+external onModeChange:
+  (Mapbox_GL_Map.t, [@bs.as "draw.modechange"] _, EventWithMode.t => unit) =>
+  Mapbox_GL_Map.t =
+  "on";
 
 // TODO: render
 // TODO: actionable
