@@ -57,12 +57,11 @@ module Options = {
 
 type t('state);
 
-[@bs.new] [@bs.module]
-external make: unit => t('a) = "@mapbox/mapbox-gl-draw";
+[@bs.new] [@bs.module "@mapbox/mapbox-gl-draw"]
+external make: unit => t('a) = "default";
 
-[@bs.new] [@bs.module]
-external makeWithOptions: Options.t('state) => t('state) =
-  "@mapbox/mapbox-gl-draw";
+[@bs.new] [@bs.module "@mapbox/mapbox-gl-draw"]
+external makeWithOptions: Options.t('state) => t('state) = "default";
 
 external toControl: t('a) => Mapbox_GL_Control.t = "%identity";
 
